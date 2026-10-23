@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Portal | CareerPilot AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            accent: '#4f46e5', // Modern Indigo
+                            accentHover: '#4338ca',
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155',
+                            textMuted: '#94a3b8',
+                            textLight: '#f8fafc',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-bg text-brand-textLight min-h-screen flex flex-col font-sans selection:bg-brand-accent selection:text-white">
+
+    <!-- NAV -->
+    <nav class="h-20 px-8 flex items-center justify-between border-b border-brand-border/50">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-brand-accent flex items-center justify-center text-white">
+                <i class="fa-solid fa-bolt text-xs"></i>
+            </div>
+            <span class="font-black tracking-tighter text-lg uppercase">CareerPilot</span>
+        </div>
+        <a href="{% url 'home' %}" class="text-[10px] font-black uppercase tracking-widest text-brand-textMuted hover:text-white transition-colors">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back to Home
+        </a>
+    </nav>
+
+    <!-- LOGIN CONTAINER -->
+    <div class="flex-1 flex items-center justify-center p-6 relative">
+        <div class="absolute w-[600px] h-[600px] bg-brand-accent/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+        <div class="w-full max-w-sm bg-brand-card border border-brand-border rounded-3xl p-8 shadow-2xl relative z-10">
+            
+            <div class="text-center mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-brand-accent/10 flex items-center justify-center text-brand-accent text-2xl mx-auto mb-4 border border-brand-accent/20">
+                    <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <h2 class="text-2xl font-black mb-1">Employer Portal</h2>
+                <p class="text-brand-textMuted text-xs font-bold uppercase tracking-widest">Sign in to manage talent</p>
+            </div>
+
+            {% if error %}
+            <div class="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-xl text-xs font-bold mb-6 flex items-center gap-2 justify-center">
+                <i class="fa-solid fa-circle-exclamation"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="group">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-brand-textMuted mb-2 ml-1 group-focus-within:text-brand-accent transition-colors">
+                        Username
+                    </label>
+                    <input type="text" name="username" placeholder="company_admin" required
+                        class="w-full bg-brand-bg border border-brand-border rounded-xl px-4 py-3.5 text-sm font-bold text-white focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all placeholder-brand-border">
+                </div>
+
+                <div class="group">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-brand-textMuted mb-2 ml-1 group-focus-within:text-brand-accent transition-colors">
+                        Password
+                    </label>
+                    <input type="password" name="password" placeholder="••••••••" required
+                        class="w-full bg-brand-bg border border-brand-border rounded-xl px-4 py-3.5 text-sm font-bold text-white focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all placeholder-brand-border">
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-brand-accent text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-brand-accentHover transition-all shadow-lg shadow-brand-accent/20 mt-2 hover:-translate-y-0.5">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="mt-8 text-center border-t border-brand-border/50 pt-6">
+                <p class="text-brand-textMuted text-xs font-bold">
+                    Need an account? 
+                    <a href="{% url 'company_register' %}" class="text-white hover:text-brand-accent underline transition-colors font-black">
+                        Create Company Profile
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

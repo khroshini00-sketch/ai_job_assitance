@@ -1,0 +1,235 @@
+{% extends 'accounts/jobseeker_base.html' %}
+{% load static %}
+
+{% block title %}My Profile | CareerPilot AI{% endblock %}
+
+{% block content %}
+    
+    <!-- HEADER -->
+    <header class="mb-8 border-b border-light-border dark:border-brand-border pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-black mb-2 text-light-text dark:text-white tracking-tight">
+                Professional Profile
+            </h1>
+            <p class="text-light-muted dark:text-brand-textMuted text-sm font-medium">
+                Your digital resume. Keep it updated to find the best matches.
+            </p>
+        </div>
+        <!-- Top Action Button -->
+        <a href="{% url 'jobseeker_profile' %}" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-brand-accent text-white rounded-xl text-sm font-bold hover:bg-brand-accentHover transition-colors shadow-md shadow-brand-accent/20">
+            <i class="fa-solid fa-pen text-xs"></i> Edit Profile
+        </a>
+    </header>
+
+    <!-- MAIN PROFILE CARD -->
+    <div class="bg-light-card dark:bg-brand-card border border-light-border dark:border-brand-border rounded-2xl p-8 mb-6 relative overflow-hidden shadow-sm flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left transition-all group">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-brand-accent/20 transition-colors duration-500"></div>
+        
+        <!-- Avatar -->
+        <div class="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-tr from-brand-accent to-blue-400 flex items-center justify-center shadow-lg shadow-brand-accent/30 flex-shrink-0 border-4 border-light-bg dark:border-brand-bg transition-transform hover:scale-105 duration-300">
+            <span class="text-4xl md:text-5xl font-black text-white uppercase">
+                {{ profile.full_name|first|default:"U" }}
+            </span>
+        </div>
+        
+        <!-- Quick Info -->
+        <div class="flex-1 mt-2 z-10">
+            <h2 class="text-2xl md:text-3xl font-black text-light-text dark:text-white mb-2 tracking-tight">
+                {{ profile.full_name }}
+            </h2>
+            <p class="text-light-muted dark:text-brand-textMuted text-sm font-medium mb-4 flex items-center justify-center md:justify-start gap-2">
+                <i class="fa-regular fa-envelope text-brand-accent"></i> {{ profile.email }}
+            </p>
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                <span class="px-2.5 py-1 bg-brand-accent/10 text-brand-accent text-[10px] rounded-md font-black tracking-widest uppercase border border-brand-accent/20">
+                    Job Seeker
+                </span>
+                <span class="px-2.5 py-1 bg-green-500/10 text-green-600 dark:text-green-400 text-[10px] rounded-md font-black tracking-widest uppercase border border-green-500/20 flex items-center gap-1">
+                    <i class="fa-solid fa-circle-check"></i> Open to work
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT GRID -->
+    <div class="space-y-6">
+
+        <!-- Contact Information -->
+        <div class="bg-light-card dark:bg-brand-card border border-light-border dark:border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-light-bg dark:bg-brand-bg flex items-center justify-center text-brand-accent border border-light-border dark:border-brand-border shadow-sm">
+                    <i class="fa-regular fa-address-card text-sm"></i>
+                </div>
+                <h3 class="text-lg font-bold text-light-text dark:text-white">Contact Information</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8">
+                <div class="p-4 bg-light-bg dark:bg-brand-bg rounded-xl border border-light-border dark:border-brand-border">
+                    <label class="block text-brand-accent text-[10px] font-black tracking-widest uppercase mb-1">Email</label>
+                    <p class="text-light-text dark:text-white font-semibold text-sm">{{ profile.email }}</p>
+                </div>
+                <div class="p-4 bg-light-bg dark:bg-brand-bg rounded-xl border border-light-border dark:border-brand-border">
+                    <label class="block text-brand-accent text-[10px] font-black tracking-widest uppercase mb-1">Phone</label>
+                    <p class="text-light-text dark:text-white font-semibold text-sm">
+                        {% if profile.phone %}
+                            {{ profile.phone }}
+                        {% else %}
+                            <span class="text-light-muted dark:text-brand-textMuted italic">Not added</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-4 bg-light-bg dark:bg-brand-bg rounded-xl border border-light-border dark:border-brand-border">
+                    <label class="block text-brand-accent text-[10px] font-black tracking-widest uppercase mb-1">LinkedIn</label>
+                    <p class="font-semibold text-sm break-all">
+                        {% if profile.linkedin %}
+                            <a href="{{ profile.linkedin }}" target="_blank" class="text-light-text dark:text-white hover:text-brand-accent dark:hover:text-brand-accent transition-colors flex items-center gap-2">
+                                <i class="fa-brands fa-linkedin text-brand-accent"></i> Profile Link
+                            </a>
+                        {% else %}
+                            <span class="text-light-muted dark:text-brand-textMuted italic">Not added</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="p-4 bg-light-bg dark:bg-brand-bg rounded-xl border border-light-border dark:border-brand-border">
+                    <label class="block text-brand-accent text-[10px] font-black tracking-widest uppercase mb-1">GitHub</label>
+                    <p class="font-semibold text-sm break-all">
+                        {% if profile.github %}
+                            <a href="{{ profile.github }}" target="_blank" class="text-light-text dark:text-white hover:text-brand-accent dark:hover:text-brand-accent transition-colors flex items-center gap-2">
+                                <i class="fa-brands fa-github text-brand-accent"></i> Repository Link
+                            </a>
+                        {% else %}
+                            <span class="text-light-muted dark:text-brand-textMuted italic">Not added</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Skills -->
+        <div class="bg-light-card dark:bg-brand-card border border-light-border dark:border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-light-bg dark:bg-brand-bg flex items-center justify-center text-brand-accent border border-light-border dark:border-brand-border shadow-sm">
+                    <i class="fa-solid fa-code text-sm"></i>
+                </div>
+                <h3 class="text-lg font-bold text-light-text dark:text-white">Professional Skills</h3>
+            </div>
+            
+            <div class="flex flex-wrap gap-2.5">
+                {% for skill in skills %}
+                    <span class="px-3.5 py-1.5 bg-light-bg dark:bg-brand-bg text-light-text dark:text-white text-xs font-bold rounded-lg border border-light-border dark:border-brand-border hover:border-brand-accent dark:hover:border-brand-accent hover:text-brand-accent dark:hover:text-brand-accent transition-colors cursor-default">
+                        {{ skill.skill_name }}
+                    </span>
+                {% empty %}
+                    <div class="w-full p-4 bg-light-bg dark:bg-brand-bg border border-light-border dark:border-brand-border border-dashed rounded-xl text-center">
+                        <p class="text-light-muted dark:text-brand-textMuted text-sm font-medium">No skills added yet.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="bg-light-card dark:bg-brand-card border border-light-border dark:border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-light-bg dark:bg-brand-bg flex items-center justify-center text-brand-accent border border-light-border dark:border-brand-border shadow-sm">
+                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                </div>
+                <h3 class="text-lg font-bold text-light-text dark:text-white">Education</h3>
+            </div>
+            
+            {% if education %}
+                <div class="relative pl-6 border-l-2 border-light-border dark:border-brand-border">
+                    <div class="absolute w-3.5 h-3.5 bg-light-bg dark:bg-brand-bg border-2 border-brand-accent rounded-full -left-[8px] top-1"></div>
+                    <h4 class="text-lg font-bold text-light-text dark:text-white mb-1">{{ education.degree }}</h4>
+                    <p class="text-brand-accent font-semibold text-sm mb-3">{{ education.college }}</p>
+                    <div class="flex flex-wrap gap-3 items-center">
+                        <span class="px-2.5 py-1 bg-light-bg dark:bg-brand-bg border border-light-border dark:border-brand-border text-light-text dark:text-gray-300 text-[10px] rounded-md uppercase font-black tracking-wider">
+                            CGPA: {{ education.cgpa }}
+                        </span>
+                        <span class="text-light-muted dark:text-brand-textMuted text-xs font-semibold flex items-center gap-1.5">
+                            <i class="fa-regular fa-calendar text-brand-accent"></i> {{ education.start_year }} - {{ education.end_year }}
+                        </span>
+                    </div>
+                </div>
+            {% else %}
+                <div class="p-6 bg-light-bg dark:bg-brand-bg border border-light-border dark:border-brand-border border-dashed rounded-xl text-center">
+                    <p class="text-light-muted dark:text-brand-textMuted text-sm font-medium">No educational qualifications added yet.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Work Experience -->
+        <div class="bg-light-card dark:bg-brand-card border border-light-border dark:border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-light-bg dark:bg-brand-bg flex items-center justify-center text-brand-accent border border-light-border dark:border-brand-border shadow-sm">
+                    <i class="fa-solid fa-briefcase text-sm"></i>
+                </div>
+                <h3 class="text-lg font-bold text-light-text dark:text-white">Work Experience</h3>
+            </div>
+            
+            <div class="space-y-8">
+                {% for exp in experience %}
+                    <div class="relative pl-6 border-l-2 border-light-border dark:border-brand-border">
+                        <div class="absolute w-3.5 h-3.5 bg-light-bg dark:bg-brand-bg border-2 border-brand-accent rounded-full -left-[8px] top-1"></div>
+                        <h4 class="text-lg font-bold text-light-text dark:text-white mb-1">{{ exp.job_title }}</h4>
+                        <p class="text-brand-accent font-semibold text-sm mb-2">{{ exp.company }}</p>
+                        <p class="text-light-muted dark:text-brand-textMuted text-xs font-semibold flex items-center gap-1.5">
+                            <i class="fa-regular fa-calendar text-brand-accent"></i> {{ exp.start_date }} - {{ exp.end_date }}
+                        </p>
+                    </div>
+                {% empty %}
+                    <div class="p-6 bg-light-bg dark:bg-brand-bg border border-light-border dark:border-brand-border border-dashed rounded-xl text-center">
+                        <p class="text-light-muted dark:text-brand-textMuted text-sm font-medium">No professional experience added yet.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="bg-light-card dark:bg-brand-card border border-light-border dark:border-brand-border rounded-2xl p-6 sm:p-8 shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-light-bg dark:bg-brand-bg flex items-center justify-center text-brand-accent border border-light-border dark:border-brand-border shadow-sm">
+                    <i class="fa-solid fa-folder-open text-sm"></i>
+                </div>
+                <h3 class="text-lg font-bold text-light-text dark:text-white">Projects</h3>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {% for project in projects %}
+                    <div class="bg-light-bg dark:bg-brand-bg border border-light-border dark:border-brand-border rounded-xl p-5 hover:border-brand-accent dark:hover:border-brand-accent transition-colors flex flex-col group">
+                        <h4 class="text-base font-bold text-light-text dark:text-white mb-2 group-hover:text-brand-accent transition-colors">
+                            {{ project.title }}
+                        </h4>
+                        <p class="text-light-muted dark:text-brand-textMuted text-sm mb-4 flex-grow leading-relaxed">
+                            {{ project.description }}
+                        </p>
+                        
+                        <div class="border-t border-light-border dark:border-brand-border pt-4 mt-auto">
+                            {% if project.technologies %}
+                                <div class="mb-3">
+                                    <span class="block text-[10px] font-black tracking-widest uppercase text-light-muted dark:text-brand-textMuted mb-1">Technologies</span>
+                                    <p class="text-brand-accent text-xs font-bold">{{ project.technologies }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if project.github_link %}
+                                <div>
+                                    <a href="{{ project.github_link }}" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold text-light-text dark:text-white hover:text-brand-accent dark:hover:text-brand-accent transition-colors">
+                                        <i class="fa-brands fa-github text-brand-accent"></i> Repository Link
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-span-full p-8 bg-light-bg dark:bg-brand-bg border border-light-border dark:border-brand-border border-dashed rounded-xl text-center">
+                        <div class="w-12 h-12 bg-light-card dark:bg-brand-card rounded-full flex items-center justify-center text-brand-accent mx-auto mb-3">
+                            <i class="fa-solid fa-folder-open text-lg"></i>
+                        </div>
+                        <p class="text-light-muted dark:text-brand-textMuted text-sm font-medium">No projects available.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

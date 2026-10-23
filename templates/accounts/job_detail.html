@@ -1,0 +1,74 @@
+{% extends 'accounts/jobseeker_base.html' %}
+{% load static %}
+
+{% block title %}{{ job.title }} | CareerPilot AI{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12 pt-10 pb-20 transition-colors duration-300">
+
+    <!-- BACK BUTTON -->
+    <a href="javascript:history.back()" 
+       class="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-brand-accent hover:underline mb-8 transition-colors cursor-pointer">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
+
+    <!-- MAIN CARD -->
+    <div class="bg-white dark:bg-[#0f172a] border border-gray-200 dark:border-gray-800 rounded-[2rem] p-8 md:p-10 shadow-xl shadow-brand-accent/5">
+
+        <!-- HEADER -->
+        <div class="flex items-start gap-5 mb-8">
+            <div class="w-16 h-16 rounded-2xl bg-brand-accent/10 flex items-center justify-center text-brand-accent text-2xl border border-brand-accent/20 flex-shrink-0">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white mb-2 leading-tight">
+                    {{ job.title }}
+                </h1>
+                <p class="text-sm font-black text-brand-accent uppercase tracking-widest">
+                    {{ job.company.company_name }}
+                </p>
+            </div>
+        </div>
+
+        <!-- METADATA GRID -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            {% for label, value in job_meta.items %}
+            <div class="p-4 bg-gray-50 dark:bg-[#1e293b] rounded-2xl border border-gray-100 dark:border-gray-800">
+                <span class="block text-[10px] font-black tracking-widest uppercase text-brand-accent mb-1">{{ label }}</span>
+                <span class="font-bold text-sm text-gray-900 dark:text-white">{{ value }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- SKILLS -->
+        <div class="mb-8">
+            <h3 class="text-[10px] font-black tracking-widest uppercase text-gray-400 dark:text-gray-500 mb-3">Required Skills</h3>
+            <p class="text-sm font-bold text-gray-700 dark:text-gray-300">{{ job.job_skills }}</p>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="mb-10">
+            <h3 class="text-[10px] font-black tracking-widest uppercase text-gray-400 dark:text-gray-500 mb-3">Job Description</h3>
+            <div class="bg-gray-50 dark:bg-[#1e293b] p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">{{ job.description }}</p>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        {% if job.status != "Open" %}
+            <button disabled class="w-full py-4 bg-gray-100 dark:bg-[#1e293b] text-gray-400 dark:text-gray-600 rounded-xl text-sm font-black uppercase tracking-widest cursor-not-allowed">
+                Position Closed
+            </button>
+        {% elif already_applied %}
+            <button disabled class="w-full py-4 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 rounded-xl text-sm font-black uppercase tracking-widest cursor-not-allowed">
+                Applied Successfully ✓
+            </button>
+        {% else %}
+            <a href="{% url 'apply_job' job.id %}" class="block w-full text-center py-4 bg-brand-accent text-white rounded-xl text-sm font-black uppercase tracking-widest hover:bg-brand-accentHover transition-all shadow-lg shadow-brand-accent/20 transform hover:-translate-y-0.5">
+                Apply Now
+            </a>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
